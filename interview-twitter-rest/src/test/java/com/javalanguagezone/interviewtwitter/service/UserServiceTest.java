@@ -2,7 +2,9 @@ package com.javalanguagezone.interviewtwitter.service;
 
 import com.javalanguagezone.interviewtwitter.domain.User;
 import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
+import com.javalanguagezone.interviewtwitter.repository.UserRepository;
 import com.javalanguagezone.interviewtwitter.service.dto.UserOverviewDto;
+import com.javalanguagezone.interviewtwitter.service.dto.UserRegistrationDto;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +28,9 @@ public class UserServiceTest {
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private UserRepository userRepository;
+
   @Test(expected = UsernameNotFoundException.class)
   public void loadingUserWithUnknownUsername_UsernameNotFoundExceptionThrown() {
     userService.loadUserByUsername("unknownUser");
@@ -43,5 +48,23 @@ public class UserServiceTest {
     assertEquals(userOverview.getFollowingCount(), 4);
     assertEquals(userOverview.getFollowerCount(), 1);
     assertEquals(userOverview.getTweetCount(), 3);
+  }
+
+  @Test
+  public void registerUser_ExpectUserIsCreated(){
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+    userRegistrationDto.setFullName("Lana Del Rey");
+    userRegistrationDto.setPassword("LanaOdKralja");
+    userRegistrationDto.setUsername("ldr");
+    userService.userRegistration(userRegistrationDto);
+
+    User savedInDbUser = userRepository.findOneByUsername("ldr");
+    assertNotNull(savedInDbUser);
+    assertEquals(savedInDbUser.getUsername(), userRegistrationDto.getUsername());
+    assertEquals(savedInDbUser.getFullName(), userRegistrationDto.getFullName());
+    assertEquals(savedInDbUser.getPassword(), userRegistrationDto.getPassword());
+    //assertEquals(savedInDbUser.getFollowing().size(), 0); Needs manytomany fetch type eager on variable
+    //assertEquals(savedInDbUser.getFollowers().size(), 0);
+
   }
 }

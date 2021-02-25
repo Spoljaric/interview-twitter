@@ -5,6 +5,7 @@ import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
 import com.javalanguagezone.interviewtwitter.repository.UserRepository;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserOverviewDto;
+import com.javalanguagezone.interviewtwitter.service.dto.UserRegistrationDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -47,6 +48,12 @@ public class UserService implements UserDetailsService {
   public Collection<UserDTO> getUsersFollowers(Principal principal) {
     User user = getUser(principal.getName());
     return convertUsersToDTOs(user.getFollowers());
+  }
+
+  @Transactional
+  public void userRegistration(UserRegistrationDto userRegistrationDto){
+    User registerUser = new User(userRegistrationDto.getUsername(), userRegistrationDto.getPassword(), userRegistrationDto.getFullName());
+    userRepository.save(registerUser);
   }
 
   @Transactional

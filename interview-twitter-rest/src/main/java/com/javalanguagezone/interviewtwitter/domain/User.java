@@ -29,6 +29,8 @@ public class User implements UserDetails {
   @Column(unique = true)
   private String username;
 
+  private String fullName;
+
   @JsonIgnore
   @ManyToMany
   private Set<User> following = new HashSet<>();
@@ -43,6 +45,12 @@ public class User implements UserDetails {
   public User(String username, String password) {
     this.username = username;
     this.password = password;
+  }
+
+  public User(String username, String password, String fullName) {
+    this.username = username;
+    this.password = password;
+    this.fullName = fullName;
   }
 
   public void addFollowing(User... users){
