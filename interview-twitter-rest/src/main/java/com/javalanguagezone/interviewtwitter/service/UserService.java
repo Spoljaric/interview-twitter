@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
     User user = getUser(username);
     if(user == null)
       throw new UsernameNotFoundException(username);
-    return new UserOverviewDto(user);
+    return new UserOverviewDto(user, tweetRepository.countByAuthor(user));
   }
 
   private User getUser(String username) {

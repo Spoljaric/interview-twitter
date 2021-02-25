@@ -12,4 +12,6 @@ import java.util.List;
 @Repository
 public interface TweetRepository extends JpaRepository<Tweet, Long> {
   List<Tweet> findAllByAuthor(User author);
+
+  int countByAuthor(User author);
 }
