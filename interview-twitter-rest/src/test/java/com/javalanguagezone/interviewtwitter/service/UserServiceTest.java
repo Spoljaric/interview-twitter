@@ -73,7 +73,13 @@ public class UserServiceTest {
     UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
     userRegistrationDto.setUsername("satoshiNakamoto");
     userRegistrationDto.setPassword("testiiiiiiii");
-    
+
+    userService.userRegistration(userRegistrationDto);
+  }
+
+  @Test(expected = UserService.InvalidUserRegistrationException.class)
+  public void registerUserWithNoData_ExcpectInvalidUserExceptionThrown(){
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
     userService.userRegistration(userRegistrationDto);
   }
 }

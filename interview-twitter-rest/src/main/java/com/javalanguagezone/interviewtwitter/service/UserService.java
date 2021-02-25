@@ -56,6 +56,8 @@ public class UserService implements UserDetailsService {
     if(userRepository.countByUsername(userRegistrationDto.getUsername()) > 0)
       throw new UserAlreadyIsRegisteredException(userRegistrationDto.getUsername());
     User registerUser = new User(userRegistrationDto.getUsername(), userRegistrationDto.getPassword(), userRegistrationDto.getFullName());
+    if(!registerUser.isValid())
+      throw new InvalidUserRegistrationException(userRegistrationDto.getUsername());
     userRepository.save(registerUser);
   }
 
@@ -73,6 +75,17 @@ public class UserService implements UserDetailsService {
     private String username;
 
     private UserAlreadyIsRegisteredException(String username) {
+      super(username);
+      this.username = username;
+    }
+  }
+
+  public static class InvalidUserRegistrationException extends RuntimeException {
+
+    @Getter
+    private String username;
+
+    private InvalidUserRegistrationException(String username) {
       super(username);
       this.username = username;
     }
