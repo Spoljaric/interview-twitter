@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
   public UserOverviewDto getUserOverview(String username){
     User user = getUser(username);
     if(user == null)
-      throw new UsernameNotFoundException(username);
+      throw new InvalidUserNameException(username);
     return new UserOverviewDto(user, tweetRepository.countByAuthor(user));
   }
 
@@ -86,6 +86,17 @@ public class UserService implements UserDetailsService {
     private String username;
 
     private InvalidUserRegistrationException(String username) {
+      super(username);
+      this.username = username;
+    }
+  }
+
+  public static class InvalidUserNameException extends RuntimeException {
+
+    @Getter
+    private String username;
+
+    private InvalidUserNameException(String username) {
       super(username);
       this.username = username;
     }
