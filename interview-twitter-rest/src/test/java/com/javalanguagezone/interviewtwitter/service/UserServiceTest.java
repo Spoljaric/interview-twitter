@@ -36,7 +36,7 @@ public class UserServiceTest {
     userService.loadUserByUsername("unknownUser");
   }
 
-  @Test(expected = UsernameNotFoundException.class)
+  @Test(expected = UserService.InvalidUserNameException.class)
   public void testLoadingUser_ExpectExceptionThrown(){
     userService.getUserOverview("andreasAntonopoulos");
   }
