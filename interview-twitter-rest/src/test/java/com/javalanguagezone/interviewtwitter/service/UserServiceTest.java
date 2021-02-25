@@ -67,4 +67,13 @@ public class UserServiceTest {
     //assertEquals(savedInDbUser.getFollowers().size(), 0);
 
   }
+
+  @Test(expected = UserService.UserAlreadyIsRegisteredException.class)
+  public void registeringUserThatExists_ExpectAlreadyRegisterExceptionThrown() {
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+    userRegistrationDto.setUsername("satoshiNakamoto");
+    userRegistrationDto.setPassword("testiiiiiiii");
+    
+    userService.userRegistration(userRegistrationDto);
+  }
 }

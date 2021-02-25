@@ -6,6 +6,7 @@ import com.javalanguagezone.interviewtwitter.repository.UserRepository;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserOverviewDto;
 import com.javalanguagezone.interviewtwitter.service.dto.UserRegistrationDto;
+import lombok.Getter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,6 +53,8 @@ public class UserService implements UserDetailsService {
 
   @Transactional
   public void userRegistration(UserRegistrationDto userRegistrationDto){
+    if(userRepository.countByUsername(userRegistrationDto.getUsername()) > 0)
+      throw new UserAlreadyIsRegisteredException(userRegistrationDto.getUsername());
     User registerUser = new User(userRegistrationDto.getUsername(), userRegistrationDto.getPassword(), userRegistrationDto.getFullName());
     userRepository.save(registerUser);
   }
@@ -62,6 +65,17 @@ public class UserService implements UserDetailsService {
     if(user == null)
       throw new UsernameNotFoundException(username);
     return new UserOverviewDto(user, tweetRepository.countByAuthor(user));
+  }
+
+  public static class UserAlreadyIsRegisteredException extends RuntimeException {
+
+    @Getter
+    private String username;
+
+    private UserAlreadyIsRegisteredException(String username) {
+      super(username);
+      this.username = username;
+    }
   }
 
   private User getUser(String username) {
