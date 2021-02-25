@@ -82,4 +82,16 @@ public class UserServiceTest {
     UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
     userService.userRegistration(userRegistrationDto);
   }
+
+  @Test(expected = UserService.InvalidUserRegistrationException.class)
+  public void registerUserWithCharacterOverflow_ExcpectInvalidUserExceptionThrown(){
+    String thisIs33CharactersLong = "oEJ5WqPZ9dj0oE5XTEgyCrIz1c0wSZ96B";
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+    userRegistrationDto.setUsername(thisIs33CharactersLong);
+    userRegistrationDto.setPassword("testiiiiiii");
+    userRegistrationDto.setFullName("Lana");
+    userService.userRegistration(userRegistrationDto);
+  }
+
+
 }
