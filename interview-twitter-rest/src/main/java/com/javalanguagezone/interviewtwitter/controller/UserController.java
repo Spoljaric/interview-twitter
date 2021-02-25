@@ -22,6 +22,7 @@ import java.security.Principal;
 import java.util.Collection;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @RestController
 @Slf4j
@@ -59,6 +60,13 @@ public class UserController {
   public ErrorMessage handleInvalidUserNameException(UserService.InvalidUserNameException e){
     log.warn("", e);
     return new ErrorMessage(String.format("Invalid username '%s'", e.getUsername()));
+  }
+
+  @ExceptionHandler
+  @ResponseStatus(CONFLICT)
+  public ErrorMessage handleUsernameExistsException(UserService.UserAlreadyIsRegisteredException e){
+    log.warn("", e);
+    return new ErrorMessage(String.format("Username already exists '%s'", e.getUsername()));
   }
 
 }

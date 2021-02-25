@@ -3,6 +3,7 @@ package com.javalanguagezone.interviewtwitter.controller;
 import com.javalanguagezone.interviewtwitter.controller.dto.ErrorMessage;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserOverviewDto;
+import com.javalanguagezone.interviewtwitter.service.dto.UserRegistrationDto;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +39,7 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   }
 
   @Test
-  public void userOverviewWithUserThatExists_ExpectReturnOverview(){
+  public void userOverviewWithUserThatExists_ExpectReturnOverview() {
     ResponseEntity<UserOverviewDto> response = withAuthTestRestTemplate().getForEntity("/overview/{username}", UserOverviewDto.class, Collections.singletonMap("username", "satoshiNakamoto"));
     assertEquals(response.getStatusCode(), HttpStatus.OK);
     UserOverviewDto userOverviewDto = response.getBody();
@@ -51,12 +52,37 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
   }
 
   @Test
-  public void userOverviewWithUserThatDoesntExists_ExpectBadRequest(){
+  public void userOverviewWithUserThatDoesntExists_ExpectBadRequest() {
     ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate().getForEntity("/overview/{username}", ErrorMessage.class, Collections.singletonMap("username", "taylorSwift"));
     assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
     ErrorMessage errorMessage = response.getBody();
     assertNotNull(errorMessage);
     assertEquals(errorMessage.getMessage(), "Invalid username 'taylorSwift'");
+  }
+
+  @Test
+  public void userRegistration_ExpectRegistration() {
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+    userRegistrationDto.setFullName("Rebecca Marie Gomez");
+    userRegistrationDto.setPassword("BekiGe");
+    userRegistrationDto.setUsername("BeckyG");
+
+    ResponseEntity<String> response = withAuthTestRestTemplate().postForEntity("/register", userRegistrationDto, String.class);
+    assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+  }
+
+  @Test
+  public void userRegistration_ExpectExceptionBecauseUserExists() {
+    UserRegistrationDto userRegistrationDto = new UserRegistrationDto();
+    userRegistrationDto.setFullName("aantonop");
+    userRegistrationDto.setPassword("password");
+    userRegistrationDto.setUsername("aantonop");
+
+    ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate().postForEntity("/register", userRegistrationDto, ErrorMessage.class);
+    assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+    ErrorMessage errorMessage = response.getBody();
+    assertNotNull(errorMessage);
+    assertEquals(errorMessage.getMessage(), "Username already exists 'aantonop'");
   }
 
   private List<String> extractUsernames(List<UserDTO> users) {
