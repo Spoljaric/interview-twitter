@@ -1,8 +1,10 @@
 package com.javalanguagezone.interviewtwitter.service;
 
 import com.javalanguagezone.interviewtwitter.domain.User;
+import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
 import com.javalanguagezone.interviewtwitter.repository.UserRepository;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
+import com.javalanguagezone.interviewtwitter.service.dto.UserOverviewDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,9 +22,11 @@ import static java.util.stream.Collectors.toList;
 public class UserService implements UserDetailsService {
 
   private UserRepository userRepository;
+  private TweetRepository tweetRepository;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, TweetRepository tweetRepository) {
     this.userRepository = userRepository;
+    this.tweetRepository = tweetRepository;
   }
 
   @Override
@@ -43,6 +47,14 @@ public class UserService implements UserDetailsService {
   public Collection<UserDTO> getUsersFollowers(Principal principal) {
     User user = getUser(principal.getName());
     return convertUsersToDTOs(user.getFollowers());
+  }
+
+  @Transactional
+  public UserOverviewDto getUserOverview(String username){
+    User user = getUser(username);
+    if(user == null)
+      throw new UsernameNotFoundException(username);
+    return new UserOverviewDto(user);
   }
 
   private User getUser(String username) {

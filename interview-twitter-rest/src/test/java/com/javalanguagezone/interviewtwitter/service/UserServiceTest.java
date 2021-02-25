@@ -18,4 +18,9 @@ public class UserServiceTest {
   public void loadingUserWithUnknownUsername_UsernameNotFoundExceptionThrown() {
     userService.loadUserByUsername("unknownUser");
   }
+
+  @Test
+  public void testLoadingUser_ExpectFullUserOverview(){
+    //TODO
+  }
 }
