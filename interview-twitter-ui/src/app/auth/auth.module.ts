@@ -10,6 +10,7 @@ import {LoginContainerComponent} from "./login-container/login-container.compone
 import {LoginComponent} from "./login/login.component";
 import {AuthRoutingModule} from "./auth-routing.module";
 import {RegisterComponent} from './register/register.component';
+import {RegisterService} from './register-service/register.service';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {RegisterComponent} from './register/register.component';
     },
     AuthGuard,
     AuthService,
+    RegisterService
   ],
   declarations: [
     LoginComponent,

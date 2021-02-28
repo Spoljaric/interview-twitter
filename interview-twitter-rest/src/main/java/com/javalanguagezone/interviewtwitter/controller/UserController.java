@@ -53,6 +53,7 @@ public class UserController {
   @PostMapping("/register")
   @ResponseStatus(HttpStatus.CREATED)
   public void register(@RequestBody UserRegistrationDto userRegistration) {
+    log.info(userRegistration.toString());
     userService.userRegistration(userRegistration);
   }
 

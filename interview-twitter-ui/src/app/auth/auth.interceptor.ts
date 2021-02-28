@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
-import {Observable} from "rxjs";
-import {AuthService} from "../services/auth.service";
+import {Observable} from 'rxjs';
+import {AuthService} from '../services/auth.service';
 import {Router} from '@angular/router';
 import 'rxjs/add/operator/do';
 
@@ -11,12 +11,19 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    req = req.clone({
-      setHeaders: {
-        "X-Requested-With": 'XMLHttpRequest',
-        "Authorization": 'Basic ' + this.authService.getAuthToken()
-      }
-    });
+    console.log(req.headers);
+    if (req.headers && req.headers.has('X-Skip-Interceptor')) {
+      console.log('doing this');
+      const headers = req.headers.delete('X-Skip-Interceptor');
+      return next.handle(req.clone({headers}));
+    } else {
+      req = req.clone({
+        setHeaders: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'Authorization': 'Basic ' + this.authService.getAuthToken()
+        }
+      });
+    }
     return next.handle(req).do((event: HttpEvent<any>) => {
     }, (err: any) => {
       if (err instanceof HttpErrorResponse && err.status === 401) {
