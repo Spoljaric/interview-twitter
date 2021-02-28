@@ -11,7 +11,10 @@
         </li>
         <li routerLinkActive="active"><a routerLink="overview/{{getCurrentUser()}}">Overview</a>
         </li>
+        <button *ngIf="isLoggedIn" type="button" class="btn btn-danger" (click)="logout()">Logout</button>
       </ul>
+    </div>
+    <div>
     </div>
   </div>
 </nav>

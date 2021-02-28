@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../services/auth.service";
 
 @Component({
@@ -8,10 +8,18 @@ import {AuthService} from "../../../services/auth.service";
   preserveWhitespaces: false,
 })
 export class NavbarComponent {
+
+  isLoggedIn = false;
+
   constructor(private authService: AuthService) {
+    this.isLoggedIn = this.authService.getCurrentUser() !== null;
   }
 
   getCurrentUser(): string {
     return this.authService.getCurrentUser();
+  }
+
+  logout() {
+    return this.authService.logout();
   }
 }
