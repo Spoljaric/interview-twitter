@@ -59,21 +59,21 @@ public class UserController {
   @ExceptionHandler
   @ResponseStatus(BAD_REQUEST)
   public ErrorMessage handleInvalidUserNameException(UserService.InvalidUserNameException e) {
-    log.warn("", e);
+    log.warn("Bad request received: {}", e);
     return new ErrorMessage(String.format("Invalid username '%s'", e.getUsername()));
   }
 
   @ExceptionHandler
   @ResponseStatus(CONFLICT)
   public ErrorMessage handleUsernameExistsException(UserService.UserAlreadyIsRegisteredException e) {
-    log.warn("", e);
+    log.warn("Conflict detected: {}", e);
     return new ErrorMessage(String.format("Username already exists '%s'", e.getUsername()));
   }
 
   @ExceptionHandler
   @ResponseStatus(BAD_REQUEST)
   public ErrorMessage InvalidUserRegistrationException(UserService.InvalidUserRegistrationException e) {
-    log.warn("", e);
+    log.warn("Invalid registration: {}", e);
     return new ErrorMessage(String.format("Invalid details for registration"));
   }
 

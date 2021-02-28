@@ -2,7 +2,7 @@ export interface UserOverviewModel {
   id: number,
   username: string,
   fullName: string,
-  followersCount: number,
+  followerCount: number,
   followingCount: number,
-  postCount: number
+  tweetCount: number
 }

@@ -12,6 +12,7 @@ public class UserOverviewDto {
 
   private Long id;
   private String username;
+  private String fullName;
   private int followerCount;
   private int followingCount;
   private int tweetCount;
@@ -19,6 +20,7 @@ public class UserOverviewDto {
   public UserOverviewDto(User user, int tweetCount) {
     this.id = user.getId();
     this.username = user.getUsername();
+    this.fullName = user.getFullName();
     this.followerCount = user.getFollowers().size();
     this.followingCount = user.getFollowing().size();
     this.tweetCount = tweetCount;
