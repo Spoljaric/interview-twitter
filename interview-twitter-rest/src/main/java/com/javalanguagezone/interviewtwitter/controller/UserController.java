@@ -45,8 +45,9 @@ public class UserController {
   }
 
   @GetMapping("/overview/{username}")
-  public UserOverviewDto userOverview(@PathVariable String username){
-      return userService.getUserOverview(username);
+  public UserOverviewDto userOverview(@PathVariable String username) {
+    log.info("Getting user overview for user {}", username);
+    return userService.getUserOverview(username);
   }
 
   @PostMapping("/register")
@@ -57,21 +58,21 @@ public class UserController {
 
   @ExceptionHandler
   @ResponseStatus(BAD_REQUEST)
-  public ErrorMessage handleInvalidUserNameException(UserService.InvalidUserNameException e){
+  public ErrorMessage handleInvalidUserNameException(UserService.InvalidUserNameException e) {
     log.warn("", e);
     return new ErrorMessage(String.format("Invalid username '%s'", e.getUsername()));
   }
 
   @ExceptionHandler
   @ResponseStatus(CONFLICT)
-  public ErrorMessage handleUsernameExistsException(UserService.UserAlreadyIsRegisteredException e){
+  public ErrorMessage handleUsernameExistsException(UserService.UserAlreadyIsRegisteredException e) {
     log.warn("", e);
     return new ErrorMessage(String.format("Username already exists '%s'", e.getUsername()));
   }
 
   @ExceptionHandler
   @ResponseStatus(BAD_REQUEST)
-  public ErrorMessage InvalidUserRegistrationException(UserService.InvalidUserRegistrationException e){
+  public ErrorMessage InvalidUserRegistrationException(UserService.InvalidUserRegistrationException e) {
     log.warn("", e);
     return new ErrorMessage(String.format("Invalid details for registration"));
   }
