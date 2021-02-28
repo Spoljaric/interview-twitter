@@ -1,10 +1,14 @@
-<div class="row">
-  <h1>{{userOverview.fullName}} <br> (@{{userOverview.username}})</h1>
-</div>
-<div class="row">
-  <p>Followers: {{userOverview.followerCount}}</p>
-  <p>Following: {{userOverview.followingCount}}</p>
-  <p>Tweets:{{userOverview.tweetCount}}</p>
-</div>
+<table *ngIf="userOverview !== null && userOverview !== undefined" class="table" id="overview-table">
+  <div class="row">
+    <h1>{{userOverview.fullName}} <br> (@{{userOverview.username}})</h1>
+  </div>
+  <div class="row">
+    <p>Followers: {{userOverview.followerCount}}</p>
+    <p>Following: {{userOverview.followingCount}}</p>
+    <p>Tweets:{{userOverview.tweetCount}}</p>
+  </div>
+</table>
+
+
 
 
