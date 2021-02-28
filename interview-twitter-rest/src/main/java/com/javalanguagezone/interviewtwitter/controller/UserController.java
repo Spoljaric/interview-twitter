@@ -69,4 +69,11 @@ public class UserController {
     return new ErrorMessage(String.format("Username already exists '%s'", e.getUsername()));
   }
 
+  @ExceptionHandler
+  @ResponseStatus(BAD_REQUEST)
+  public ErrorMessage InvalidUserRegistrationException(UserService.InvalidUserRegistrationException e){
+    log.warn("", e);
+    return new ErrorMessage(String.format("Invalid details for registration"));
+  }
+
 }

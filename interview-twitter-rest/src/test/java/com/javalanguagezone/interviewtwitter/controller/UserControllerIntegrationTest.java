@@ -85,6 +85,17 @@ public class UserControllerIntegrationTest extends RestIntegrationTest {
     assertEquals(errorMessage.getMessage(), "Username already exists 'aantonop'");
   }
 
+  @Test
+  public void userRegistration_ExpectBadRequest(){
+    UserRegistrationDto userRegistrationDTO = new UserRegistrationDto();
+
+    ResponseEntity<ErrorMessage> response = withAuthTestRestTemplate().postForEntity("/register", userRegistrationDTO, ErrorMessage.class);
+    ErrorMessage errorMessage = response.getBody();
+    assertNotNull(errorMessage);
+    assertEquals(response.getStatusCode(), HttpStatus.BAD_REQUEST);
+    assertEquals(errorMessage.getMessage(), "Invalid details for registration");
+  }
+
   private List<String> extractUsernames(List<UserDTO> users) {
     return users.stream().map(UserDTO::getUsername).collect(toList());
   }
