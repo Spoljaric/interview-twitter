@@ -5,13 +5,15 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li routerLinkActive="active"><a routerLink="tweets/{{getCurrentUser()}}">My tweets</a>
+        <li *ngIf="!isLoggedIn" routerLinkActive="active"><a routerLink="register">Register</a>
         </li>
-        <li routerLinkActive="active"><a routerLink="tweets">Tweets</a>
+        <li *ngIf="isLoggedIn" routerLinkActive="active"><a routerLink="tweets/{{getCurrentUser()}}">My tweets</a>
         </li>
-        <li routerLinkActive="active"><a routerLink="overview/{{getCurrentUser()}}">Overview</a>
+        <li *ngIf="isLoggedIn"routerLinkActive="active"><a routerLink="tweets">Tweets</a>
         </li>
-        <button *ngIf="isLoggedIn" type="button" class="btn btn-danger" (click)="logout()">Logout</button>
+        <li *ngIf="isLoggedIn" routerLinkActive="active"><a routerLink="overview/{{getCurrentUser()}}">Overview</a>
+        </li>
+        <button *ngIf="isLoggedIn" type="button" class="btn btn-danger" (click)="logout()" routerLink="/login">Logout</button>
       </ul>
     </div>
     <div>
