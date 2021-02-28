@@ -1,14 +1,8 @@
-<table *ngIf="userOverview !== null && userOverview !== undefined" class="table" id="overview-table">
+<div *ngIf="userOverview !== null && userOverview !== undefined" class="container-fluid">
+  <h1>{{userOverview.fullName}} <br> (@{{userOverview.username}})</h1>
   <div class="row">
-    <h1>{{userOverview.fullName}} <br> (@{{userOverview.username}})</h1>
+    <div class="col-sm-4" style="background-color:lavender;">Followers: {{userOverview.followerCount}}</div>
+    <div class="col-sm-4" style="background-color:lavenderblush;">Following: {{userOverview.followingCount}}</div>
+    <div class="col-sm-4" style="background-color:lavender;">Tweets:{{userOverview.tweetCount}}</div>
   </div>
-  <div class="row">
-    <p>Followers: {{userOverview.followerCount}}</p>
-    <p>Following: {{userOverview.followingCount}}</p>
-    <p>Tweets:{{userOverview.tweetCount}}</p>
-  </div>
-</table>
-
-
-
-
+</div>
